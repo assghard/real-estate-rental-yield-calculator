@@ -159,7 +159,7 @@ const RentalYieldCalculator = () => {
               <CardHeader className="primary-bg text-white rounded-t-lg">
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
-                  Live Preview
+                  Live Results
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
