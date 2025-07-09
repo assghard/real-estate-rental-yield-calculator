@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { toast } from '@/hooks/use-toast';
 const RentalYieldCalculator = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [properties, setProperties] = useState<(PropertyData & CalculationResults)[]>([]);
+  const comparisonTableRef = useRef<HTMLDivElement>(null);
   const [currentProperty, setCurrentProperty] = useState<PropertyData>({
     name: '',
     purchasePrice: 0,
@@ -93,6 +94,14 @@ const RentalYieldCalculator = () => {
       title: "Property Added",
       description: `${propertyWithResults.name} has been calculated and added to comparison.`,
     });
+
+    // Scroll to comparison table after adding property
+    setTimeout(() => {
+      comparisonTableRef.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
   };
 
   const handleRemoveProperty = (index: number) => {
@@ -170,7 +179,7 @@ const RentalYieldCalculator = () => {
 
           {/* Comparison Table */}
           {properties.length > 0 && (
-            <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+            <Card ref={comparisonTableRef} className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
               <CardHeader className="primary-bg text-white rounded-t-lg">
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
