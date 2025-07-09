@@ -1,5 +1,6 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calculator, Building, TrendingUp, Download, Plus } from 'lucide-react';
@@ -11,6 +12,7 @@ import { calculateRentalMetrics } from '@/utils/rentalCalculations';
 import { toast } from '@/hooks/use-toast';
 
 const RentalYieldCalculator = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [properties, setProperties] = useState<(PropertyData & CalculationResults)[]>([]);
   const [currentProperty, setCurrentProperty] = useState<PropertyData>({
     name: '',
@@ -23,6 +25,43 @@ const RentalYieldCalculator = () => {
     interestRate: 0,
     occupancyRate: 100,
   });
+
+  // Load values from URL parameters on component mount
+  useEffect(() => {
+    const urlProperty: PropertyData = {
+      name: searchParams.get('name') || '',
+      purchasePrice: Number(searchParams.get('purchasePrice')) || 0,
+      monthlyRent: Number(searchParams.get('monthlyRent')) || 0,
+      annualExpenses: Number(searchParams.get('annualExpenses')) || 0,
+      renovationCost: Number(searchParams.get('renovationCost')) || 0,
+      downPayment: Number(searchParams.get('downPayment')) || 0,
+      loanAmount: Number(searchParams.get('loanAmount')) || 0,
+      interestRate: Number(searchParams.get('interestRate')) || 0,
+      occupancyRate: Number(searchParams.get('occupancyRate')) || 100,
+    };
+
+    // Only update if there are actual values in the URL
+    if (Object.values(urlProperty).some(value => value !== '' && value !== 0 && value !== 100)) {
+      setCurrentProperty(urlProperty);
+    }
+  }, []);
+
+  // Update URL when property values change
+  useEffect(() => {
+    const newParams = new URLSearchParams();
+    
+    if (currentProperty.name) newParams.set('name', currentProperty.name);
+    if (currentProperty.purchasePrice > 0) newParams.set('purchasePrice', currentProperty.purchasePrice.toString());
+    if (currentProperty.monthlyRent > 0) newParams.set('monthlyRent', currentProperty.monthlyRent.toString());
+    if (currentProperty.annualExpenses > 0) newParams.set('annualExpenses', currentProperty.annualExpenses.toString());
+    if (currentProperty.renovationCost > 0) newParams.set('renovationCost', currentProperty.renovationCost.toString());
+    if (currentProperty.downPayment > 0) newParams.set('downPayment', currentProperty.downPayment.toString());
+    if (currentProperty.loanAmount > 0) newParams.set('loanAmount', currentProperty.loanAmount.toString());
+    if (currentProperty.interestRate > 0) newParams.set('interestRate', currentProperty.interestRate.toString());
+    if (currentProperty.occupancyRate !== 100) newParams.set('occupancyRate', currentProperty.occupancyRate.toString());
+
+    setSearchParams(newParams, { replace: true });
+  }, [currentProperty, setSearchParams]);
 
   const handleCalculate = () => {
     if (!currentProperty.name || currentProperty.purchasePrice <= 0 || currentProperty.monthlyRent <= 0) {
