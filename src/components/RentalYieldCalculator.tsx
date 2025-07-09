@@ -198,7 +198,7 @@ const RentalYieldCalculator = () => {
           )}
 
           {/* Getting Started Guide */}
-          {properties.length === 0 && (
+          {properties.length === 0 && !(currentProperty.purchasePrice > 0 && currentProperty.monthlyRent > 0) && (
             <Card className="shadow-lg border-0 bg-gray-50">
               <CardContent className="p-8 text-center">
                 <div className="mb-6">
