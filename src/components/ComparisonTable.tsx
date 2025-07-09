@@ -1,9 +1,12 @@
 
+import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, TrendingUp, TrendingDown } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Trash2, TrendingUp, Eye } from 'lucide-react';
 import { PropertyData, CalculationResults } from '@/types/property';
+import ResultsDisplay from './ResultsDisplay';
 
 interface ComparisonTableProps {
   properties: (PropertyData & CalculationResults)[];
@@ -11,6 +14,8 @@ interface ComparisonTableProps {
 }
 
 const ComparisonTable = ({ properties, onRemove }: ComparisonTableProps) => {
+  const [selectedProperty, setSelectedProperty] = useState<(PropertyData & CalculationResults) | null>(null);
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
