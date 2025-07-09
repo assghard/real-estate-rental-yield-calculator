@@ -72,10 +72,10 @@ const RentalYieldCalculator = () => {
       {/* Header */}
       <div className="text-center mb-12">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="p-3 rounded-full gradient-bg">
+          <div className="p-3 rounded-full primary-bg">
             <Building className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold text-primary">
             Rental Yield Calculator
           </h1>
         </div>
@@ -89,7 +89,7 @@ const RentalYieldCalculator = () => {
         {/* Property Input Form */}
         <div className="xl:col-span-1">
           <Card className="sticky top-8 shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-            <CardHeader className="gradient-bg text-white rounded-t-lg">
+            <CardHeader className="primary-bg text-white rounded-t-lg">
               <CardTitle className="flex items-center gap-2">
                 <Calculator className="h-5 w-5" />
                 Property Calculator
@@ -102,7 +102,7 @@ const RentalYieldCalculator = () => {
               />
               <Button 
                 onClick={handleCalculate}
-                className="w-full mt-6 gradient-bg text-white hover:opacity-90 transition-opacity"
+                className="w-full mt-6 primary-bg text-white hover:opacity-90 transition-opacity"
                 size="lg"
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -117,7 +117,7 @@ const RentalYieldCalculator = () => {
           {/* Quick Results Preview */}
           {currentProperty.purchasePrice > 0 && currentProperty.monthlyRent > 0 && (
             <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
-              <CardHeader className="bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-t-lg">
+              <CardHeader className="primary-bg text-white rounded-t-lg">
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
                   Live Preview
@@ -132,7 +132,7 @@ const RentalYieldCalculator = () => {
           {/* Comparison Table */}
           {properties.length > 0 && (
             <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
-              <CardHeader className="bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-t-lg">
+              <CardHeader className="primary-bg text-white rounded-t-lg">
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Building className="h-5 w-5" />
@@ -160,10 +160,10 @@ const RentalYieldCalculator = () => {
 
           {/* Getting Started Guide */}
           {properties.length === 0 && (
-            <Card className="shadow-lg border-0 bg-gradient-to-br from-blue-50 to-green-50">
+            <Card className="shadow-lg border-0 bg-gray-50">
               <CardContent className="p-8 text-center">
                 <div className="mb-6">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full primary-bg flex items-center justify-center">
                     <Calculator className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
@@ -176,15 +176,15 @@ const RentalYieldCalculator = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
                   <div className="p-4 bg-white/60 rounded-lg">
-                    <div className="font-medium text-blue-600 mb-1">Step 1</div>
+                    <div className="font-medium text-primary mb-1">Step 1</div>
                     <div>Enter property details and purchase price</div>
                   </div>
                   <div className="p-4 bg-white/60 rounded-lg">
-                    <div className="font-medium text-green-600 mb-1">Step 2</div>
+                    <div className="font-medium text-primary mb-1">Step 2</div>
                     <div>Add rental income and expenses</div>
                   </div>
                   <div className="p-4 bg-white/60 rounded-lg">
-                    <div className="font-medium text-purple-600 mb-1">Step 3</div>
+                    <div className="font-medium text-primary mb-1">Step 3</div>
                     <div>Compare multiple properties</div>
                   </div>
                 </div>
