@@ -133,14 +133,24 @@ const ComparisonTable = ({ properties, onRemove }: ComparisonTableProps) => {
                 {formatPercentage(property.capRate)}
               </TableCell>
               <TableCell className="text-center">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onRemove(index)}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                <div className="flex gap-2 justify-center">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedProperty(property)}
+                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onRemove(index)}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
@@ -177,6 +187,19 @@ const ComparisonTable = ({ properties, onRemove }: ComparisonTableProps) => {
           </div>
         </div>
       )}
+
+      <Dialog open={!!selectedProperty} onOpenChange={() => setSelectedProperty(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Property Details - {selectedProperty?.name}</DialogTitle>
+          </DialogHeader>
+          {selectedProperty && (
+            <ResultsDisplay
+              results={selectedProperty}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
