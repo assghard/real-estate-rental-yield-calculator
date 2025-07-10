@@ -363,6 +363,95 @@ const RentalYieldCalculator = () => {
           )}
         </div>
       </div>
+
+      {/* Color Legend */}
+      <Card className="mt-8 shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+        <CardHeader className="primary-bg text-white rounded-t-lg">
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded bg-white/20"></div>
+            Color Legend - Live Results
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Yield Colors */}
+            <div>
+              <h4 className="font-semibold text-gray-800 mb-3">Rental Yield (Gross & Net)</h4>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-green-500"></div>
+                  <span className="text-sm text-gray-600">Green: Excellent (≥8%)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-yellow-500"></div>
+                  <span className="text-sm text-gray-600">Yellow: Good (5-7.9%)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-red-500"></div>
+                  <span className="text-sm text-gray-600">Red: Fair (&lt;5%)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ROI Colors */}
+            <div>
+              <h4 className="font-semibold text-gray-800 mb-3">Return on Investment (ROI)</h4>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-green-500"></div>
+                  <span className="text-sm text-gray-600">Green: Excellent (≥15%)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-yellow-500"></div>
+                  <span className="text-sm text-gray-600">Yellow: Good (10-14.9%)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-red-500"></div>
+                  <span className="text-sm text-gray-600">Red: Fair (&lt;10%)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Fixed Colors */}
+            <div>
+              <h4 className="font-semibold text-gray-800 mb-3">Other Metrics</h4>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-green-500"></div>
+                  <span className="text-sm text-gray-600">Green: Positive Cash Flow</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-red-500"></div>
+                  <span className="text-sm text-gray-600">Red: Negative Cash Flow</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-blue-500"></div>
+                  <span className="text-sm text-gray-600">Blue: Monthly Cash Flow</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-purple-500"></div>
+                  <span className="text-sm text-gray-600">Purple: Annual Income</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-indigo-500"></div>
+                  <span className="text-sm text-gray-600">Indigo: Cap Rate</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded bg-gray-500"></div>
+                  <span className="text-sm text-gray-600">Gray: Break-even Analysis</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <p className="text-sm text-blue-800">
+              <strong>Note:</strong> Colors in the Live Results section automatically change based on your property data. 
+              Green indicates excellent performance, yellow shows good performance, and red suggests areas for improvement.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
