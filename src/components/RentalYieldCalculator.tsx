@@ -109,9 +109,69 @@ const RentalYieldCalculator = () => {
   };
 
   const handleExportPDF = () => {
+    const { jsPDF } = require('jspdf');
+    const doc = new jsPDF();
+    
+    // Title
+    doc.setFontSize(20);
+    doc.text('Property Comparison Report', 20, 20);
+    
+    // Date
+    doc.setFontSize(12);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 35);
+    
+    let yPos = 50;
+    
+    properties.forEach((property, index) => {
+      // Property header
+      doc.setFontSize(16);
+      doc.text(`${index + 1}. ${property.name}`, 20, yPos);
+      yPos += 10;
+      
+      // Property details
+      doc.setFontSize(10);
+      const details = [
+        `Purchase Price: $${property.purchasePrice.toLocaleString()}`,
+        `Monthly Rent: $${property.monthlyRent.toLocaleString()}`,
+        `Annual Expenses: $${property.annualExpenses.toLocaleString()}`,
+        `Renovation Cost: $${property.renovationCost.toLocaleString()}`,
+        `Down Payment: $${property.downPayment.toLocaleString()}`,
+        `Loan Amount: $${property.loanAmount.toLocaleString()}`,
+        `Interest Rate: ${property.interestRate}%`,
+        `Occupancy Rate: ${property.occupancyRate}%`,
+        '',
+        `Gross Rental Yield: ${property.grossRentalYield.toFixed(2)}%`,
+        `Net Rental Yield: ${property.netRentalYield.toFixed(2)}%`,
+        `ROI: ${property.roi.toFixed(2)}%`,
+        `Cap Rate: ${property.capRate.toFixed(2)}%`,
+        `Annual Cash Flow: $${property.annualCashFlow.toLocaleString()}`,
+        `Monthly Cash Flow: $${property.monthlyCashFlow.toLocaleString()}`,
+      ];
+      
+      details.forEach(detail => {
+        if (detail === '') {
+          yPos += 5;
+        } else {
+          doc.text(detail, 25, yPos);
+          yPos += 6;
+        }
+      });
+      
+      yPos += 15;
+      
+      // Add new page if needed
+      if (yPos > 260 && index < properties.length - 1) {
+        doc.addPage();
+        yPos = 20;
+      }
+    });
+    
+    // Save the PDF
+    doc.save(`property-comparison-${new Date().toISOString().split('T')[0]}.pdf`);
+    
     toast({
-      title: "PDF Export",
-      description: "PDF export functionality would be implemented here.",
+      title: "PDF Generated",
+      description: "Property comparison report has been downloaded.",
     });
   };
 
