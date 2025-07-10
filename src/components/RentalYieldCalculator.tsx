@@ -110,61 +110,123 @@ const RentalYieldCalculator = () => {
   };
 
   const handleExportPDF = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation for table
+    const primaryColor = '#02073e';
     
-    // Title
-    doc.setFontSize(20);
-    doc.text('Property Comparison Report', 20, 20);
+    // Header with styling
+    doc.setFillColor(primaryColor);
+    doc.rect(0, 0, 297, 25, 'F');
     
-    // Date
-    doc.setFontSize(12);
-    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 35);
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(18);
+    doc.text('Property Comparison Report', 20, 16);
     
-    let yPos = 50;
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 220, 16);
     
+    // Reset text color
+    doc.setTextColor(0, 0, 0);
+    
+    let yPos = 40;
+    const colWidths = [40, 30, 25, 25, 25, 25, 30, 30, 25, 25, 25];
+    const headers = [
+      'Property Name',
+      'Purchase Price',
+      'Monthly Rent',
+      'Annual Expenses',
+      'Down Payment',
+      'Loan Amount',
+      'Gross Yield %',
+      'Net Yield %',
+      'ROI %',
+      'Cap Rate %',
+      'Monthly Cash Flow'
+    ];
+    
+    // Table header with styling
+    doc.setFillColor(primaryColor);
+    doc.rect(15, yPos - 5, 267, 10, 'F');
+    
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(8);
+    doc.setFont(undefined, 'bold');
+    
+    let xPos = 20;
+    headers.forEach((header, i) => {
+      doc.text(header, xPos, yPos);
+      xPos += colWidths[i];
+    });
+    
+    yPos += 15;
+    doc.setTextColor(0, 0, 0);
+    doc.setFont(undefined, 'normal');
+    
+    // Table rows
     properties.forEach((property, index) => {
-      // Property header
-      doc.setFontSize(16);
-      doc.text(`${index + 1}. ${property.name}`, 20, yPos);
-      yPos += 10;
+      // Alternating row colors
+      if (index % 2 === 1) {
+        doc.setFillColor(248, 249, 250);
+        doc.rect(15, yPos - 5, 267, 10, 'F');
+      }
       
-      // Property details
-      doc.setFontSize(10);
-      const details = [
-        `Purchase Price: $${property.purchasePrice.toLocaleString()}`,
-        `Monthly Rent: $${property.monthlyRent.toLocaleString()}`,
-        `Annual Expenses: $${property.annualExpenses.toLocaleString()}`,
-        `Renovation Cost: $${property.renovationCost.toLocaleString()}`,
-        `Down Payment: $${property.downPayment.toLocaleString()}`,
-        `Loan Amount: $${property.loanAmount.toLocaleString()}`,
-        `Interest Rate: ${property.interestRate}%`,
-        `Occupancy Rate: ${property.occupancyRate}%`,
-        '',
-        `Gross Rental Yield: ${property.grossRentalYield.toFixed(2)}%`,
-        `Net Rental Yield: ${property.netRentalYield.toFixed(2)}%`,
-        `ROI: ${property.roi.toFixed(2)}%`,
-        `Cap Rate: ${property.capRate.toFixed(2)}%`,
-        `Annual Cash Flow: $${property.annualCashFlow.toLocaleString()}`,
-        `Monthly Cash Flow: $${property.monthlyCashFlow.toLocaleString()}`,
+      const rowData = [
+        property.name,
+        `$${(property.purchasePrice / 1000).toFixed(0)}k`,
+        `$${property.monthlyRent.toLocaleString()}`,
+        `$${(property.annualExpenses / 1000).toFixed(0)}k`,
+        `$${(property.downPayment / 1000).toFixed(0)}k`,
+        `$${(property.loanAmount / 1000).toFixed(0)}k`,
+        `${property.grossRentalYield.toFixed(2)}%`,
+        `${property.netRentalYield.toFixed(2)}%`,
+        `${property.roi.toFixed(2)}%`,
+        `${property.capRate.toFixed(2)}%`,
+        `$${property.monthlyCashFlow.toLocaleString()}`
       ];
       
-      details.forEach(detail => {
-        if (detail === '') {
-          yPos += 5;
-        } else {
-          doc.text(detail, 25, yPos);
-          yPos += 6;
-        }
+      xPos = 20;
+      rowData.forEach((data, i) => {
+        doc.text(data.toString(), xPos, yPos);
+        xPos += colWidths[i];
       });
       
-      yPos += 15;
+      yPos += 12;
       
       // Add new page if needed
-      if (yPos > 260 && index < properties.length - 1) {
+      if (yPos > 180 && index < properties.length - 1) {
         doc.addPage();
         yPos = 20;
+        
+        // Repeat header on new page
+        doc.setFillColor(primaryColor);
+        doc.rect(15, yPos - 5, 267, 10, 'F');
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFont(undefined, 'bold');
+        
+        xPos = 20;
+        headers.forEach((header, i) => {
+          doc.text(header, xPos, yPos);
+          xPos += colWidths[i];
+        });
+        
+        yPos += 15;
+        doc.setTextColor(0, 0, 0);
+        doc.setFont(undefined, 'normal');
       }
     });
+    
+    // Footer
+    const pageCount = doc.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFillColor(primaryColor);
+      doc.rect(0, 200, 297, 10, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(8);
+      doc.text(`Page ${i} of ${pageCount}`, 20, 206);
+      doc.text('Generated by Rental Yield Calculator', 220, 206);
+    }
     
     // Save the PDF
     doc.save(`property-comparison-${new Date().toISOString().split('T')[0]}.pdf`);
