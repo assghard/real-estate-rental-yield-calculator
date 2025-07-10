@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calculator, Building, TrendingUp, Download, Plus } from 'lucide-react';
+import { jsPDF } from 'jspdf';
 import PropertyForm from './PropertyForm';
 import ResultsDisplay from './ResultsDisplay';
 import ComparisonTable from './ComparisonTable';
@@ -109,7 +110,6 @@ const RentalYieldCalculator = () => {
   };
 
   const handleExportPDF = () => {
-    const { jsPDF } = require('jspdf');
     const doc = new jsPDF();
     
     // Title
