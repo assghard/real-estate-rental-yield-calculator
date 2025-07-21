@@ -97,6 +97,38 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+
+  h1 {
+    @apply text-4xl font-bold text-primary mb-6 leading-tight;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold text-primary mb-4 leading-snug;
+  }
+
+  p {
+    @apply text-base text-foreground mb-4 leading-relaxed;
+  }
+
+  ul, ol {
+    @apply mb-4 pl-6 space-y-2;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  li {
+    @apply text-foreground leading-relaxed;
+  }
+
+  li::marker {
+    @apply text-secondary;
+  }
 }
 
 @layer utilities {
