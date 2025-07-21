@@ -128,9 +128,9 @@ const RentalYieldCalculator = () => {
     doc.setTextColor(0, 0, 0);
     
     let yPos = 40;
-    const colWidths = [40, 30, 25, 25, 25, 25, 30, 30, 25, 25, 25];
-    const headers = [
-      'Property Name',
+    
+    // Vertical table structure: Properties as columns, metrics as rows
+    const metrics = [
       'Purchase Price',
       'Monthly Rent',
       'Annual Expenses',
@@ -143,70 +143,109 @@ const RentalYieldCalculator = () => {
       'Monthly Cash Flow'
     ];
     
-    // Table header with styling
+    // Calculate column widths based on number of properties
+    const propertyColumnWidth = Math.min(50, Math.max(35, (267 - 60) / properties.length));
+    const metricColumnWidth = 60;
+    
+    // Header row with property names
     doc.setFillColor(primaryColor);
-    doc.rect(15, yPos - 5, 267, 10, 'F');
+    doc.rect(15, yPos - 5, metricColumnWidth + (propertyColumnWidth * properties.length), 10, 'F');
     
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(8);
     doc.setFont(undefined, 'bold');
     
-    let xPos = 20;
-    headers.forEach((header, i) => {
-      doc.text(header, xPos, yPos);
-      xPos += colWidths[i];
+    // Metric label column header
+    doc.text('Metric', 20, yPos);
+    
+    // Property name headers
+    let xPos = 20 + metricColumnWidth;
+    properties.forEach((property) => {
+      const truncatedName = property.name.length > 10 ? property.name.substring(0, 10) + '...' : property.name;
+      doc.text(truncatedName, xPos, yPos);
+      xPos += propertyColumnWidth;
     });
     
     yPos += 15;
     doc.setTextColor(0, 0, 0);
     doc.setFont(undefined, 'normal');
     
-    // Table rows
-    properties.forEach((property, index) => {
+    // Metric rows
+    metrics.forEach((metric, rowIndex) => {
       // Alternating row colors
-      if (index % 2 === 1) {
+      if (rowIndex % 2 === 1) {
         doc.setFillColor(248, 249, 250);
-        doc.rect(15, yPos - 5, 267, 10, 'F');
+        doc.rect(15, yPos - 5, metricColumnWidth + (propertyColumnWidth * properties.length), 10, 'F');
       }
       
-      const rowData = [
-        property.name,
-        `$${(property.purchasePrice / 1000).toFixed(0)}k`,
-        `$${property.monthlyRent.toLocaleString()}`,
-        `$${(property.annualExpenses / 1000).toFixed(0)}k`,
-        `$${(property.downPayment / 1000).toFixed(0)}k`,
-        `$${(property.loanAmount / 1000).toFixed(0)}k`,
-        `${property.grossRentalYield.toFixed(2)}%`,
-        `${property.netRentalYield.toFixed(2)}%`,
-        `${property.roi.toFixed(2)}%`,
-        `${property.capRate.toFixed(2)}%`,
-        `$${property.monthlyCashFlow.toLocaleString()}`
-      ];
+      // Metric name
+      doc.setFont(undefined, 'bold');
+      doc.text(metric, 20, yPos);
+      doc.setFont(undefined, 'normal');
       
-      xPos = 20;
-      rowData.forEach((data, i) => {
-        doc.text(data.toString(), xPos, yPos);
-        xPos += colWidths[i];
+      // Property values for this metric
+      xPos = 20 + metricColumnWidth;
+      properties.forEach((property) => {
+        let value = '';
+        
+        switch (metric) {
+          case 'Purchase Price':
+            value = `$${(property.purchasePrice / 1000).toFixed(0)}k`;
+            break;
+          case 'Monthly Rent':
+            value = `$${property.monthlyRent.toLocaleString()}`;
+            break;
+          case 'Annual Expenses':
+            value = `$${(property.annualExpenses / 1000).toFixed(0)}k`;
+            break;
+          case 'Down Payment':
+            value = `$${(property.downPayment / 1000).toFixed(0)}k`;
+            break;
+          case 'Loan Amount':
+            value = `$${(property.loanAmount / 1000).toFixed(0)}k`;
+            break;
+          case 'Gross Yield %':
+            value = `${property.grossRentalYield.toFixed(2)}%`;
+            break;
+          case 'Net Yield %':
+            value = `${property.netRentalYield.toFixed(2)}%`;
+            break;
+          case 'ROI %':
+            value = `${property.roi.toFixed(2)}%`;
+            break;
+          case 'Cap Rate %':
+            value = `${property.capRate.toFixed(2)}%`;
+            break;
+          case 'Monthly Cash Flow':
+            value = `$${property.monthlyCashFlow.toLocaleString()}`;
+            break;
+        }
+        
+        doc.text(value, xPos, yPos);
+        xPos += propertyColumnWidth;
       });
       
       yPos += 12;
       
       // Add new page if needed
-      if (yPos > 180 && index < properties.length - 1) {
+      if (yPos > 180 && rowIndex < metrics.length - 1) {
         doc.addPage();
         yPos = 20;
         
         // Repeat header on new page
         doc.setFillColor(primaryColor);
-        doc.rect(15, yPos - 5, 267, 10, 'F');
+        doc.rect(15, yPos - 5, metricColumnWidth + (propertyColumnWidth * properties.length), 10, 'F');
         
         doc.setTextColor(255, 255, 255);
         doc.setFont(undefined, 'bold');
         
-        xPos = 20;
-        headers.forEach((header, i) => {
-          doc.text(header, xPos, yPos);
-          xPos += colWidths[i];
+        doc.text('Metric', 20, yPos);
+        
+        xPos = 20 + metricColumnWidth;
+        properties.forEach((property) => {
+          const truncatedName = property.name.length > 10 ? property.name.substring(0, 10) + '...' : property.name;
+          doc.text(truncatedName, xPos, yPos);
+          xPos += propertyColumnWidth;
         });
         
         yPos += 15;
