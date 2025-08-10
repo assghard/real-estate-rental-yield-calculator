@@ -1,8 +1,20 @@
-# Welcome to your Lovable project
+# Rental Yield Calculator - Real Estate Investment ROI Analysis Tool
 
-## Project info
+Professional rental yield calculator for real estate investors. Calculate ROI, cash flow, and compare multiple properties. Analyze rental property performance, calculate ROI, and compare multiple investments to make informed real estate decisions. 
 
-**URL**: https://lovable.dev/projects/7e8df1c6-ebc0-48e0-a83e-c983118bd15f
+## Rental Yield (ROI) Calculator for Investment Properties by RealtyTools.pl
+
+The Rental Yield Calculator is an essential tool for real estate investors. It’s designed for individuals who are already investing in rental properties — or are planning to. This tool helps you calculate rental profitability, net income, and your return on investment (ROI). Find out how many years it will take for your investment property to pay for itself. See the expected annual rate of return. Calculate how much you can earn from rental income, factoring in all costs, fees, and commissions.
+
+The calculator helps you assess the profitability of renting out an apartment, residential unit, or commercial property over time. 
+
+Visit website: [Rental Yield Calculator - Real Estate Investment ROI Analysis Tool](https://roi.realtytools.pl/)
+
+
+
+## Created by Lovable AI
+
+**DEMO URL**: https://lovable.dev/projects/7e8df1c6-ebc0-48e0-a83e-c983118bd15f
 
 ## How can I edit this code?
 
